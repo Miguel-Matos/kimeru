@@ -1,6 +1,5 @@
-import '/dist/output.css';
+import { top } from './layout';
+import { side } from './layout';
 
-const test = document.createElement('p');
-test.textContent = 'Test';
-test.classList.add('text-red-500');
-document.body.appendChild(test);
+document.body.appendChild(top.topBar);
+document.body.appendChild(side.sideBar);
