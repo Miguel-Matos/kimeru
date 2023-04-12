@@ -14,7 +14,7 @@ const top = (() => {
 // Creates a task button on the left side bar
 const taskButton = (name) => {
   const task = document.createElement('button');
-  task.classList.add('font-sans', 'text-xl', 'bg-slate-100', 'hover:bg-slate-200', 'h-14', 'min-h-fit' , 'w-5/6', 'rounded-lg', 'flex-none');
+  task.classList.add('font-sans', 'text-xl', 'bg-slate-100', 'hover:bg-slate-200', 'active:bg-slate-400' , 'h-14', 'w-5/6', 'rounded-lg', 'flex-none');
   task.textContent = name;
 
   return {task};
@@ -30,7 +30,7 @@ const side = (() => {
   title.classList.add('text-center', 'font-sans', 'text-3xl', 'py-5');
 
   const tasks = document.createElement('div');
-  tasks.classList.add('flex', 'flex-col', 'items-center', 'h-screen', 'overflow-y-auto', 'gap-5', 'scrollbar-hide');
+  tasks.classList.add('flex', 'flex-col', 'items-center', 'h-screen', 'overflow-y-auto', 'pb-5', 'gap-5', 'scrollbar-hide');
 
   sideBar.appendChild(title);
   sideBar.appendChild(tasks);
