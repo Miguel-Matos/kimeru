@@ -38,7 +38,31 @@ const textAreaPiece = (id, text, type) => {
   return {title, name};
 };
 
+const dropDowns = () => {
 
+  const date = document.createElement('div');
+  const priority = document.createElement('div');
+
+  const priDrop = document.createElement('select');
+  const pri = document.createElement('option');
+  pri.textContent = 'Priority';
+  pri.selected = true;
+  pri.disabled = true;
+  pri.hidden = true;
+  const low = document.createElement('option');
+  low.textContent = 'Low';
+  const med = document.createElement('option');
+  med.textContent = 'Medium';
+  const high = document.createElement('option');
+  high.textContent = 'High';
+  priDrop.add(pri);
+  priDrop.add(low);
+  priDrop.add(med);
+  priDrop.add(high);
+  
+  priority.appendChild(priDrop);
+  return {date, priority}
+}
 // TODO Create Create button
 
 // Creates task item for the right area of the UI
@@ -52,13 +76,14 @@ const taskForm = (() => {
 
   const title = textPiece('name', 'Task Name', 'text');
   const des = textAreaPiece('des', 'Description', 'textarea');
+  const date = dropDowns();
 
   const submit = taskButton('Add Task');
   form.appendChild(title.title);
   form.appendChild(title.name);
   form.appendChild(des.title);
   form.appendChild(des.name);
-
+  form.appendChild(date.priority);
 
   form.appendChild(submit.task);
   return {form};
@@ -70,21 +95,12 @@ const form = (() => {
   const form = document.createElement('form');
   form.classList.add('bg-slate-200', 'flex', 'flex-col', 'w-64', 'sm:w-80', 'items-center', 'p-5');
 
-  const title = document.createElement('label');
-  title.setAttribute('for', 'name');
-  title.textContent = "New Task";
-  title.classList.add('text-xl')
-
-  const name = document.createElement('input');
-  name.type = 'text';
-  name.name = 'name';
-  name.setAttribute('id', 'name');
-  name.classList.add('m-5', 'border', 'pl-1');
+  const title = textPiece('name', 'New Task', 'text');
 
 
   const submit = taskButton('Add Task');
-  form.appendChild(title);
-  form.appendChild(name);
+  form.appendChild(title.title);
+  form.appendChild(title.name);
   form.appendChild(submit.task);
   return {form};
 })();
