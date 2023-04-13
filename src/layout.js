@@ -1,6 +1,8 @@
 import '/dist/output.css';
 import '/src/input.css';
 
+import { form } from './task';
+
 const top = (() => {
   const topBar = document.createElement('div');
   topBar.classList.add('bg-slate-200', 'drop-shadow-md', 'p-5', 'fixed', 'w-screen', 'top-0', 'z-10');
@@ -11,14 +13,6 @@ const top = (() => {
   return {topBar};
 })();
 
-// Creates a task button on the left side bar
-const taskButton = (name) => {
-  const task = document.createElement('button');
-  task.classList.add('font-sans', 'text-xl', 'bg-slate-100', 'hover:bg-slate-200', 'active:bg-slate-400' , 'h-14', 'w-5/6', 'rounded-lg', 'flex-none');
-  task.textContent = name;
-
-  return {task};
-}
 
 
 // Makes the side bar
@@ -34,10 +28,10 @@ const side = (() => {
 
   sideBar.appendChild(title);
   sideBar.appendChild(tasks);
-  for (let i = 0; i < 50; i++) {
-    const testTask = taskButton('Test 1');
-    tasks.appendChild(testTask.task);
-  }
+  // for (let i = 0; i < 50; i++) {
+  //   const testTask = taskButton('Test 1');
+  //   tasks.appendChild(testTask.task);
+  // }
   
 
   return {sideBar};
@@ -49,10 +43,8 @@ const side = (() => {
 // Right area of the UI
 const core = (() => {
   const area = document.createElement('div');
-  area.classList.add('h-screen', 'w-screen', 'overflow-y-auto', 'mt-5');
-  const test = document.createElement('p');
-  test.textContent = "Testing";
-  area.appendChild(test);
+  area.classList.add('h-screen', 'w-screen', 'overflow-y-auto', 'mt-5', 'px-5');
+  area.appendChild(form.form);
 
   return {area}
 })();
@@ -61,7 +53,7 @@ const core = (() => {
 // Combined left nav and right area
 const area = (() => {
   const main = document.createElement('main');
-  main.classList.add('flex', 'gap-5', 'fixed', 'top-20');
+  main.classList.add('flex', 'fixed', 'top-20');
   main.appendChild(side.sideBar);
   main.appendChild(core.area);
 
