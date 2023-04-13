@@ -1,7 +1,7 @@
 import '/dist/output.css';
 import '/src/input.css';
 
-import { form } from './task';
+import { form, taskForm } from './task';
 
 const top = (() => {
   const topBar = document.createElement('div');
@@ -45,6 +45,7 @@ const core = (() => {
   const area = document.createElement('div');
   area.classList.add('h-screen', 'w-screen', 'overflow-y-auto', 'mt-5', 'px-5');
   area.appendChild(form.form);
+  area.appendChild(taskForm.form);
 
   return {area}
 })();
