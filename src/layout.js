@@ -1,5 +1,6 @@
 import '/dist/output.css';
 import '/src/input.css';
+import { plus } from './task';
 
 import { form, taskForm } from './task';
 
@@ -25,8 +26,16 @@ const side = (() => {
 
   const tasks = document.createElement('div');
   tasks.classList.add('flex', 'flex-col', 'items-center', 'h-screen', 'overflow-y-auto', 'pb-5', 'gap-5', 'scrollbar-hide');
+  plus.plus.task.classList.remove('p-2', 'h-14', 'w-5/6');
+  plus.plus.task.classList.add('px-2', 'h-8', 'pb-1');
 
-  sideBar.appendChild(title);
+
+  const titlePlusDiv = document.createElement('div');
+  titlePlusDiv.classList.add('flex', 'gap-5', 'justify-center', 'items-center');
+  titlePlusDiv.appendChild(title);
+  titlePlusDiv.appendChild(plus.plus.task);
+
+  sideBar.appendChild(titlePlusDiv);
   sideBar.appendChild(tasks);
   // for (let i = 0; i < 50; i++) {
   //   const testTask = taskButton('Test 1');

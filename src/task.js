@@ -1,13 +1,20 @@
 import '/dist/output.css';
 import { side } from './layout';
 
-// Creates a task button on the left side bar
-const taskButton = (name) => {
-  const task = document.createElement('button');
-  task.classList.add('font-sans', 'text-xl', 'bg-slate-100', 'hover:bg-slate-200', 'active:bg-slate-400' , 'h-14', 'w-5/6', 'rounded-lg', 'flex-none', 'shadow-md', 'text-ellipsis', 'overflow-hidden', 'px-2');
-  task.textContent = name;
+const counters = (() => {
+  const leftTask = 0;
 
-  return {task};
+  return {leftTask};
+})();
+
+// Creates a task button on the left side bar
+const taskButton = (name, num) => {
+  const task = document.createElement('button');
+  task.classList.add('font-sans', 'text-xl', 'bg-slate-100', 'hover:bg-slate-200', 'active:bg-slate-400' , 'h-14', 'w-5/6', 'rounded-lg', 'flex-none', 'shadow-md', 'text-ellipsis', 'overflow-hidden', 'p-2');
+  task.textContent = name;
+  const counter = num;
+
+  return {task, counter};
 };
 
 const textPiece = (id, text, type) => {
@@ -72,13 +79,13 @@ const item = (title, description, dueDate, priority) => {
 
 const taskForm = (() => {
   const form = document.createElement('form');
-  form.classList.add('bg-slate-200', 'flex', 'flex-col', 'w-64', 'sm:w-80', 'items-center', 'p-5');
+  form.classList.add('bg-slate-200', 'flex', 'flex-col', 'w-64', 'sm:w-80', 'items-center', 'p-5', 'hidden');
 
   const title = textPiece('name', 'Task Name', 'text');
   const des = textAreaPiece('des', 'Description', 'textarea');
   const date = priority();
 
-  const submit = taskButton('Add Task');
+  const submit = taskButton('Add Task', -1);
   form.appendChild(title.title);
   form.appendChild(title.name);
   form.appendChild(des.title);
@@ -93,11 +100,11 @@ const taskForm = (() => {
 const form = (() => {
 
   const form = document.createElement('form');
-  form.classList.add('bg-slate-200', 'flex', 'flex-col', 'w-64', 'sm:w-80', 'items-center', 'p-5');
+  form.classList.add('bg-slate-200', 'flex', 'flex-col', 'w-64', 'sm:w-80', 'items-center', 'p-5', 'hidden');
 
   const title = textPiece('name', 'New Task', 'text');
 
-  const submit = taskButton('Add Task');
+  const submit = taskButton('Add Task', -1);
   form.appendChild(title.title);
   form.appendChild(title.name);
   form.appendChild(submit.task);
@@ -111,12 +118,27 @@ const taskButtonMaker = (() => {
   let taskArr = [];
   form.submit.task.addEventListener('click', (e) => {
     e.preventDefault();
-    const addTask = taskButton(form.title.name.value);
-    taskArr.push(addTask);
-    side.tasks.appendChild(addTask.task);
+    const addTask = taskButton(form.title.name.value, counters.leftTask);
+    taskArr.push(addTask.task);
+    side.tasks.appendChild(taskArr[counters.leftTask]);
+    counters.leftTask++;
     console.log(taskArr);
     form.title.name.value = '';
+    form.form.classList.add('hidden');
   });
+  return {taskArr};
 })();
 
-export {form, taskForm};
+const plus = (() => {
+  const plus = taskButton('+', -1);
+  plus.task.addEventListener('click', (e) => {
+    form.form.classList.remove('hidden');
+  });
+  return {plus};
+})();
+
+const taskButtonDeleter = (() => {
+  
+})();
+
+export {form, taskForm, plus};
