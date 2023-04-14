@@ -1,6 +1,6 @@
 import '/dist/output.css';
 import '/src/input.css';
-import { plus } from './task';
+import { plus, leftLocalStorageCheck } from './task';
 
 import { form, taskForm } from './task';
 
@@ -36,12 +36,7 @@ const side = (() => {
   titlePlusDiv.appendChild(plus.plus.task);
 
   sideBar.appendChild(titlePlusDiv);
-  sideBar.appendChild(tasks);
-  // for (let i = 0; i < 50; i++) {
-  //   const testTask = taskButton('Test 1');
-  //   tasks.appendChild(testTask.task);
-  // }
-  
+  sideBar.appendChild(tasks);  
 
   return {sideBar, tasks};
 })();

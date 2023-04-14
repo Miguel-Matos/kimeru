@@ -1,21 +1,30 @@
 import '/dist/output.css';
 import { side } from './layout';
 
-const counters = (() => {
-  const leftTask = 0;
 
-  return {leftTask};
+const counters = (() => {
+  let leftTask = 0;
+  let taskArr = [];
+  return {leftTask, taskArr};
 })();
 
 // Creates a task button on the left side bar
 const taskButton = (name, num) => {
   const task = document.createElement('button');
+  const text = name;
   task.classList.add('font-sans', 'text-xl', 'bg-slate-100', 'hover:bg-slate-200', 'active:bg-slate-400' , 'h-14', 'w-5/6', 'rounded-lg', 'flex-none', 'shadow-md', 'text-ellipsis', 'overflow-hidden', 'p-2');
-  task.textContent = name;
+  task.textContent = text;
   const counter = num;
 
-  return {task, counter};
+  return {task, counter, text};
 };
+
+const leftTaskLocal = (toStore) => {
+  const stored = localStorage.setItem('title', toStore);
+  const retrieve = localStorage.getItem('title');
+  return {stored, retrieve};
+};
+
 
 const textPiece = (id, text, type) => {
   const title = document.createElement('label');
@@ -111,22 +120,49 @@ const form = (() => {
   return {form, submit, title};
 })();
 
+// const leftLocalStorageCheck = (() => {
+//   if (localStorage.getItem('title')) {
+//     const toLoad = localStorage.getItem('title');
+//     const converted = JSON.parse(toLoad);
+//     // console.log(converted);
+//     for (let i = 0; i < converted.length; i++) {
+//       const addTask = taskButton(converted[i].text, converted[i].counter);
+//       counters.taskArr.push(addTask);
+//       counters.leftTask++;
+//     }
+//     counters.leftTask++;
+//     // console.log(counters.taskArr);
+
+//     return {converted};
+//   }
+// })();
+
 // receives info from "form"
 // creates and adds task to right column
 // clears textbox
 const taskButtonMaker = (() => {
-  let taskArr = [];
+  // console.log(counters.taskArr);
+  // if (counters.taskArr != null) {
+  //   for (let i = 0; i < counters.taskArr.length; i++) {
+  //     // side.tasks.appendChild(taskArr[counters.leftTask].task);
+  //   }
+  // }
   form.submit.task.addEventListener('click', (e) => {
     e.preventDefault();
     const addTask = taskButton(form.title.name.value, counters.leftTask);
-    taskArr.push(addTask.task);
-    side.tasks.appendChild(taskArr[counters.leftTask]);
+    counters.taskArr.push(addTask);
+    console.log(counters.taskArr);
+    const storage = leftTaskLocal(JSON.stringify(counters.taskArr));
+    side.tasks.appendChild(counters.taskArr[counters.leftTask].task);
     counters.leftTask++;
-    console.log(taskArr);
+    console.log(counters.taskArr);
+    console.log(storage.retrieve);
+
+
     form.title.name.value = '';
     form.form.classList.add('hidden');
   });
-  return {taskArr};
+
 })();
 
 const plus = (() => {
@@ -138,7 +174,7 @@ const plus = (() => {
 })();
 
 const taskButtonDeleter = (() => {
-  
+
 })();
 
 export {form, taskForm, plus};
