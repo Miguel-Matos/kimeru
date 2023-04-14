@@ -34,7 +34,7 @@ const side = (() => {
   // }
   
 
-  return {sideBar};
+  return {sideBar, tasks};
 })();
 
 // TODO make factory to generate Task buttons
