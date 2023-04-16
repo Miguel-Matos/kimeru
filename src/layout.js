@@ -1,7 +1,7 @@
 import '/dist/output.css';
 import '/src/input.css';
-import { plus, leftLocalStorageCheck } from './task';
-
+import { plus, leftLocalStorageCheck, counters } from './task';
+import { tester } from './nav';
 import { form, taskForm } from './task';
 
 const top = (() => {
@@ -29,7 +29,10 @@ const side = (() => {
   plus.plus.task.classList.remove('p-2', 'h-14', 'w-5/6');
   plus.plus.task.classList.add('px-2', 'h-8', 'pb-1');
 
-
+  console.log(counters.taskArr);
+  for ( let i = 0; i < counters.taskArr.length; i++) {
+    tasks.appendChild(counters.taskArr[i].task);
+  }
   const titlePlusDiv = document.createElement('div');
   titlePlusDiv.classList.add('flex', 'gap-5', 'justify-center', 'items-center');
   titlePlusDiv.appendChild(title);
@@ -38,7 +41,9 @@ const side = (() => {
   sideBar.appendChild(titlePlusDiv);
   sideBar.appendChild(tasks);  
 
-  return {sideBar, tasks};
+
+
+  return {sideBar, tasks, title};
 })();
 
 // TODO make factory to generate Task buttons
@@ -50,7 +55,6 @@ const core = (() => {
   area.classList.add('h-screen', 'w-screen', 'overflow-y-auto', 'mt-5', 'px-5');
   area.appendChild(form.form);
   area.appendChild(taskForm.form);
-
   return {area}
 })();
 

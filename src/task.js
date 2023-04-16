@@ -109,7 +109,6 @@ const form = (() => {
   form.classList.add('bg-slate-200', 'flex', 'flex-col', 'w-64', 'sm:w-80', 'items-center', 'p-5', 'hidden');
 
   const title = textPiece('name', 'New Task', 'text');
-
   const submit = taskButton('Add Task', -1);
   form.appendChild(title.title);
   form.appendChild(title.name);
@@ -117,26 +116,22 @@ const form = (() => {
   return {form, submit, title};
 })();
 
-// const leftLocalStorageCheck = (() => {
-//   if (localStorage.getItem('title')) {
-//     const toLoad = localStorage.getItem('title');
-//     const converted = JSON.parse(toLoad);
-//     console.log(converted);
-//     for (let i = 0; i < converted.length; i++) {
-//       const addTask = taskButton(converted[i].text, converted[i].counter);
-//       counters.taskArr.push(addTask);
-//       counters.leftTask++;
-//     }
-//     // if (counters.taskArr != null) {
-//     //   for (let i = 0; i < counters.taskArr.length; i++) {
-//     //     side.tasks.appendChild(taskArr[counters.leftTask].task);
-//     //   }
-//     // }
-//     console.log(side);
+const leftLocalStorageCheck = (() => {
+  if (localStorage.getItem('title')) {
+    const toLoad = localStorage.getItem('title');
+    const converted = JSON.parse(toLoad);
+    console.log(converted);
+    for (let i = 0; i < converted.length; i++) {
+      const addTask = taskButton(converted[i].text, converted[i].counter);
+      counters.taskArr.push(addTask);
+      counters.leftTask++;
+    }
+    console.log(counters.taskArr);
+    // append over in layout.js
 
-//     return {converted};
-//   }
-// })();
+    return {converted};
+  }
+})();
 
 // receives info from "form"
 // creates and adds task to right column
@@ -156,6 +151,7 @@ const taskButtonMaker = (() => {
     //split into separate function later
     form.title.name.value = '';
     form.form.classList.add('hidden');
+    
 
     return {storage};
   });
@@ -174,4 +170,4 @@ const taskButtonDeleter = (() => {
 
 })();
 
-export {form, taskForm, plus};
+export {form, taskForm, plus, leftLocalStorageCheck, taskButton, counters};
