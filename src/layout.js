@@ -66,4 +66,4 @@ const area = (() => {
 
 })();
 
-export {top, side, core, area};
+export {top, core, area, side};

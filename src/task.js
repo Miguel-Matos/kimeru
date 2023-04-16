@@ -1,7 +1,6 @@
 import '/dist/output.css';
 import { side } from './layout';
 
-
 const counters = (() => {
   let leftTask = 0;
   let taskArr = [];
@@ -58,7 +57,6 @@ const textAreaPiece = (id, text, type) => {
 const priority = () => {
 
   const priority = document.createElement('div');
-
   const priDrop = document.createElement('select');
   const pri = document.createElement('option');
   pri.textContent = 'Priority';
@@ -79,11 +77,10 @@ const priority = () => {
   priority.appendChild(priDrop);
   return {priority}
 }
-// TODO Create Create button
 
 // Creates task item for the right area of the UI
 const item = (title, description, dueDate, priority) => {
-
+  
 };
 
 const taskForm = (() => {
@@ -124,14 +121,18 @@ const form = (() => {
 //   if (localStorage.getItem('title')) {
 //     const toLoad = localStorage.getItem('title');
 //     const converted = JSON.parse(toLoad);
-//     // console.log(converted);
+//     console.log(converted);
 //     for (let i = 0; i < converted.length; i++) {
 //       const addTask = taskButton(converted[i].text, converted[i].counter);
 //       counters.taskArr.push(addTask);
 //       counters.leftTask++;
 //     }
-//     counters.leftTask++;
-//     // console.log(counters.taskArr);
+//     // if (counters.taskArr != null) {
+//     //   for (let i = 0; i < counters.taskArr.length; i++) {
+//     //     side.tasks.appendChild(taskArr[counters.leftTask].task);
+//     //   }
+//     // }
+//     console.log(side);
 
 //     return {converted};
 //   }
@@ -141,12 +142,6 @@ const form = (() => {
 // creates and adds task to right column
 // clears textbox
 const taskButtonMaker = (() => {
-  // console.log(counters.taskArr);
-  // if (counters.taskArr != null) {
-  //   for (let i = 0; i < counters.taskArr.length; i++) {
-  //     // side.tasks.appendChild(taskArr[counters.leftTask].task);
-  //   }
-  // }
   form.submit.task.addEventListener('click', (e) => {
     e.preventDefault();
     const addTask = taskButton(form.title.name.value, counters.leftTask);
@@ -155,12 +150,14 @@ const taskButtonMaker = (() => {
     const storage = leftTaskLocal(JSON.stringify(counters.taskArr));
     side.tasks.appendChild(counters.taskArr[counters.leftTask].task);
     counters.leftTask++;
-    console.log(counters.taskArr);
-    console.log(storage.retrieve);
+    // console.log(counters.taskArr);
+    // console.log(storage.retrieve);
 
-
+    //split into separate function later
     form.title.name.value = '';
     form.form.classList.add('hidden');
+
+    return {storage};
   });
 
 })();
