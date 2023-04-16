@@ -1,8 +1,7 @@
 import '/dist/output.css';
 import '/src/input.css';
-import { plus, leftLocalStorageCheck, counters } from './task';
-import { tester } from './nav';
-import { form, taskForm } from './task';
+import { plus, clear, counters, form, taskForm  } from './task';
+import { buttonSelect } from './core';
 
 const top = (() => {
   const topBar = document.createElement('div');
@@ -10,6 +9,10 @@ const top = (() => {
   const title = document.createElement('h1');
   title.classList.add('text-5xl', 'text-right');
   title.textContent = "Kimeru";
+  title.addEventListener('click', () => {
+    clear.wipe();
+    console.log('Local Storage Wiped');
+  });
   topBar.appendChild(title);
   return {topBar};
 })();
@@ -25,6 +28,7 @@ const side = (() => {
   title.classList.add('text-center', 'font-sans', 'text-3xl', 'py-5');
 
   const tasks = document.createElement('div');
+  tasks.setAttribute('id', 'taskButtons');
   tasks.classList.add('flex', 'flex-col', 'items-center', 'h-screen', 'overflow-y-auto', 'pb-5', 'gap-5', 'scrollbar-hide');
   plus.plus.task.classList.remove('p-2', 'h-14', 'w-5/6');
   plus.plus.task.classList.add('px-2', 'h-8', 'pb-1');
@@ -40,9 +44,6 @@ const side = (() => {
 
   sideBar.appendChild(titlePlusDiv);
   sideBar.appendChild(tasks);  
-
-
-
   return {sideBar, tasks, title};
 })();
 
@@ -55,6 +56,9 @@ const core = (() => {
   area.classList.add('h-screen', 'w-screen', 'overflow-y-auto', 'mt-5', 'px-5');
   area.appendChild(form.form);
   area.appendChild(taskForm.form);
+
+  buttonSelect.buttonCheck();
+
   return {area}
 })();
 
