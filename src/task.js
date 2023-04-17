@@ -1,5 +1,6 @@
 import '/dist/output.css';
 import { side } from './layout';
+import { buttonSelect } from './core';
 
 const counters = (() => {
   let leftTask = 0;
@@ -148,6 +149,8 @@ const taskButtonMaker = (() => {
     } else {
       const addTask = taskButton(form.title.name.value, counters.leftTask);
       counters.taskArr.push(addTask);
+      buttonSelect.buttonCheck();
+
       console.log(counters.taskArr);
       const storage = leftTaskLocal(JSON.stringify(counters.taskArr));
       side.tasks.appendChild(counters.taskArr[counters.leftTask].task);

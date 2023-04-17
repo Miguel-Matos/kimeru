@@ -1,7 +1,7 @@
 import '/dist/output.css';
 import '/src/input.css';
 import { plus, clear, counters, form, taskForm  } from './task';
-import { buttonSelect } from './core';
+import { buttonSelect, newTaskButton } from './core';
 
 const top = (() => {
   const topBar = document.createElement('div');
@@ -53,13 +53,22 @@ const side = (() => {
 // Right area of the UI
 const core = (() => {
   const area = document.createElement('div');
-  area.classList.add('h-screen', 'w-screen', 'overflow-y-auto', 'mt-5', 'px-5');
+  const taskSpace = document.createElement('div');
+  const top = document.createElement('div');
+  top.classList.add('flex', 'flex-col', 'items-center', 'self-center')
+
+
+  top.appendChild(newTaskButton.taskTitle);
+  top.appendChild(newTaskButton.newTask);
+
+  area.appendChild(top);
+  area.classList.add('h-screen', 'w-screen', 'overflow-y-auto', 'p-5', 'flex', 'flex-col', 'items-center');
   area.appendChild(form.form);
   area.appendChild(taskForm.form);
-
+  area.appendChild(taskSpace);
   buttonSelect.buttonCheck();
 
-  return {area}
+  return {area, taskSpace}
 })();
 
 
