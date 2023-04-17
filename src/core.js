@@ -17,6 +17,20 @@ const taskButtonDeleter = (() => {
 
 })();
 
+const newTaskButton = (() => {
+  const newTask = document.createElement('button');
+  newTask.textContent = 'New Task +';
+  newTask.classList.add('font-sans', 'text-xl', 'bg-slate-100', 'hover:bg-slate-200', 'active:bg-slate-400' , 'h-14', 'w-40', 'rounded-lg', 'flex-none', 'shadow-md', 'text-ellipsis', 'overflow-hidden', 'p-2', 'taskButton');
+  newTask.addEventListener('click', () => {
+    taskForm.form.classList.remove('hidden');
+  });
+
+  const taskTitle = document.createElement('h3');
+  taskTitle.classList.add('text-xl', 'my-5');
+  taskTitle.textContent = 'Task Title';
+  return {newTask, taskTitle};
+})();
+
 const buttonSelect = (() => {
   function buttonCheck() {
     for (let i = 0; i < counters.taskArr.length; i++) {
@@ -31,7 +45,7 @@ const buttonSelect = (() => {
         document.getElementById('main').classList.add('bg-slate-400', 'hover:bg-slate-400');
         rightCounters.selected++;
         console.log(rightCounters.selected);
-        core.taskTitle.textContent = counters.taskArr[i].text;
+        newTaskButton.taskTitle.textContent = counters.taskArr[i].text;
       });
     }
   }
@@ -39,20 +53,6 @@ const buttonSelect = (() => {
 
 
   return {buttonCheck};
-})();
-
-const newTaskButton = (() => {
-  const newTask = document.createElement('button');
-  newTask.textContent = 'New Task +';
-  newTask.classList.add('font-sans', 'text-xl', 'bg-slate-100', 'hover:bg-slate-200', 'active:bg-slate-400' , 'h-14', 'w-40', 'rounded-lg', 'flex-none', 'shadow-md', 'text-ellipsis', 'overflow-hidden', 'p-2', 'taskButton');
-  newTask.addEventListener('click', () => {
-    taskForm.form.classList.remove('hidden');
-  });
-
-  const taskTitle = document.createElement('h3');
-  taskTitle.classList.add('text-xl', 'my-5');
-  taskTitle.textContent = 'Task Title';
-  return {newTask, taskTitle};
 })();
 
 
