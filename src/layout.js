@@ -1,7 +1,7 @@
 import '/dist/output.css';
 import '/src/input.css';
 import { plus, clear, counters, form  } from './task';
-import { buttonSelect, newTaskButton, taskForm } from './core';
+import { buttonSelect, newTaskButton, taskForm, taskAdder } from './core';
 
 
 const top = (() => {
@@ -9,7 +9,7 @@ const top = (() => {
   topBar.classList.add('bg-slate-200', 'drop-shadow-md', 'p-5', 'fixed', 'w-screen', 'top-0', 'z-10', 'flex', 'place-content-between');
   const taskDisplayButton = document.createElement('button');
   taskDisplayButton.textContent = '<';
-  taskDisplayButton.classList.add('font-sans', 'text-3xl', 'bg-slate-100', 'hover:bg-slate-200', 'active:bg-slate-400' , 'h-18', 'w-14', 'rounded-lg', 'shadow-md', 'p-2');
+  taskDisplayButton.classList.add('font-sans', 'text-3xl', 'bg-slate-100', 'hover:bg-slate-200', 'active:bg-slate-400' , 'h-18', 'w-14', 'rounded-lg', 'shadow-md', 'p-2', 'pb-3');
   let closed = false;
   taskDisplayButton.addEventListener('click', () => {
     if (closed === false) {
@@ -56,7 +56,7 @@ const side = (() => {
     tasks.appendChild(counters.taskArr[i].task);
   }
   const titlePlusDiv = document.createElement('div');
-  titlePlusDiv.classList.add('flex', 'gap-5', 'justify-center', 'items-center');
+  titlePlusDiv.classList.add('flex', 'gap-5', 'justify-center', 'items-center', 'pt-5');
   titlePlusDiv.appendChild(title);
   titlePlusDiv.appendChild(plus.plus.task);
 
@@ -71,10 +71,9 @@ const side = (() => {
 // Right area of the UI
 const core = (() => {
   const area = document.createElement('div');
-  const taskSpace = document.createElement('div');
+  // const taskSpace = document.createElement('div');
   const top = document.createElement('div');
   top.classList.add('flex', 'flex-col', 'items-center', 'self-center', 'hidden');
-
 
   top.appendChild(newTaskButton.taskTitle);
   top.appendChild(newTaskButton.newTask);
@@ -83,10 +82,10 @@ const core = (() => {
   area.classList.add('h-3/4', 'w-screen', 'overflow-y-auto', 'p-5', 'flex', 'flex-col', 'items-center');
   area.appendChild(form.form);
   area.appendChild(taskForm.form);
-  area.appendChild(taskSpace);
+  area.appendChild(taskAdder.taskSpace);
   buttonSelect.buttonCheck();
 
-  return {area, taskSpace, top};
+  return {area, top};
 })();
 
 

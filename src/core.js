@@ -51,6 +51,8 @@ const priority = () => {
 
   const priority = document.createElement('div');
   const priDrop = document.createElement('select');
+  priority.classList.add('pb-5');
+  priDrop.name = 'priority';
   const pri = document.createElement('option');
   pri.textContent = 'Priority';
   pri.selected = true;
@@ -58,59 +60,65 @@ const priority = () => {
   pri.hidden = true;
   const low = document.createElement('option');
   low.textContent = 'Low';
+  low.value = 'Low';
   const med = document.createElement('option');
   med.textContent = 'Medium';
+  med.value = 'Medium';
   const high = document.createElement('option');
   high.textContent = 'High';
+  high.value = 'High';
   priDrop.add(pri);
   priDrop.add(low);
   priDrop.add(med);
   priDrop.add(high);
   
   priority.appendChild(priDrop);
-  return {priority}
+  return {priority, priDrop}
 }
 
 const taskForm = (() => {
   const form = document.createElement('form');
-  form.classList.add('bg-slate-200', 'flex', 'flex-col', 'w-64', 'sm:w-80', 'items-center', 'p-5', 'hidden');
+  form.classList.add('bg-slate-200', 'flex', 'flex-col', 'w-64', 'sm:w-80', 'items-center', 'p-5', 'absolute', 'top-10', 'left-auto', 'hidden');
   const title = textPiece('name', 'Task Name', 'text');
   const des = textAreaPiece('des', 'Description', 'textarea');
-  const date = priority();
+  const level = priority();
 
   const submit = taskButton('Add Task', -1);
 
-  submit.task.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (title.name.value === '') {
-      alert('Task must have a name');
-    }
-    if (des.name.value === '') {
-      alert('Please enter a description');
-    }
-  });
   form.appendChild(title.title);
   form.appendChild(title.name);
   form.appendChild(des.title);
   form.appendChild(des.name);
-  form.appendChild(date.priority);
+  form.appendChild(level.priority);
 
   form.appendChild(submit.task);
-  return {form, submit};
+  return {form, submit, title, des, level};
 })();
 
 // Creates task item for the right area of the UI
 const item = (title, description, dueDate, priority) => {
   
+const name = document.createElement('p');
+name.textContent = title;
+const des = document.createElement('p');
+des.textContent = description;
+const date = document.createElement('p');
+date.textContent = dueDate;
+const pri = document.createElement('p');
+pri.textContent = priority;
+
+const newTask = document.createElement('div');
+newTask.classList.add('flex', 'gap-5', 'flex-wrap');
+const check = document.createElement('input');
+check.type = 'checkbox';
+newTask.appendChild(check);
+newTask.appendChild(name);
+newTask.appendChild(des);
+newTask.appendChild(date);
+newTask.appendChild(pri);
+return {newTask};
 };
 
-const taskButtonDeleter = (() => {
-
-})();
-
-function taskFormCheck() {
-
-}
 
 const newTaskButton = (() => {
   const newTask = document.createElement('button');
@@ -151,7 +159,32 @@ const buttonSelect = (() => {
   return {buttonCheck};
 })();
 
+const taskAdder = (() => {
+  const taskSpace = document.createElement('div');
+  
+  taskForm.submit.task.addEventListener('click', (e) => {
+    e.preventDefault();
+    let value = taskForm.level.priDrop.value;
+    console.log(`Priority is ${value}`);
+    if (taskForm.title.name.value === '' || taskForm.des.name.value === '' || value === 'Priority') {
+      alert('Please fill in all the information');
+    } else {
+      const test = item(taskForm.title.name.value, taskForm.des.name.value, 'Deadline', value);
+      taskSpace.appendChild(test.newTask);
+  
+      taskForm.title.name.value = '';
+      taskForm.des.name.value = '';
+      taskForm.level.priDrop.value = 'Priority'
+      taskForm.form.classList.add('hidden');
+    }
+  });
 
 
+  return {taskSpace};
+})();
 
-export {rightCounters, buttonSelect, newTaskButton, taskForm};
+const taskButtonDeleter = (() => {
+
+})();
+
+export {rightCounters, buttonSelect, newTaskButton, taskForm, taskAdder};
