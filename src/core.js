@@ -14,30 +14,28 @@ const rightTaskLocal = (toStore) => {
   return {stored, retrieve};
 };
 
-// const rightLocalStorageCheck = (() => {
-//   if (localStorage.getItem('tasks')) {
-//     const toLoad = localStorage.getItem('tasks');
-//     const converted = JSON.parse(toLoad);
-//     // console.log(converted);
-//     for (let i = 0; i < converted.length; i++) {
-//       const addTask = taskButton(converted[i].text, converted[i].counter);
-//       counters.taskArr.push(addTask);
-//       counters.leftTask++;
-//     }
-//     // console.log(counters.taskArr);
-//     // append over in layout.js
+const rightLocalStorageCheck = (() => {
+  if (localStorage.getItem('tasks')) {
+    const toLoad = localStorage.getItem('tasks');
+    const converted = JSON.parse(toLoad);
+    console.log(converted);
+    for (let i = 0; i < converted.length; i++) {
 
-//     return {converted};
-//   }
-// })();
+    }
+    // console.log(counters.taskArr);
+    // append over in layout.js
+
+    return {converted};
+  }
+})();
 
 const leftTaskGenerator = (() => {
   for (let i = 0; i < counters.taskArr.length; i++) {
     rightCounters.taskArr.push([]);
     
   }
-  console.log(rightCounters.taskArr);
-  console.log(counters.taskArr);
+  // console.log(rightCounters.taskArr);
+  // console.log(counters.taskArr);
   
 })();
 
@@ -182,7 +180,7 @@ const buttonSelect = (() => {
         document.getElementById('main').classList.add('bg-slate-400', 'hover:bg-slate-400');
         rightCounters.selected++;
         rightCounters.rightTask = counters.taskArr[i].counter;
-        console.log(rightCounters.rightTask);
+        // console.log(rightCounters.rightTask);
         newTaskButton.taskTitle.textContent = counters.taskArr[i].text;
       });
     }
@@ -204,7 +202,7 @@ const taskAdder = (() => {
       alert('Please fill in all the information');
     } else {
       const newItem = item(taskForm.title.name.value, taskForm.des.name.value, 'Deadline', value);
-      rightCounters.taskArr[rightCounters.rightTask].push(newItem);
+      rightCounters.taskArr[rightCounters.rightTask].push(newItem.newTask);
       console.log(rightCounters.taskArr);
       let position = 0;
 
@@ -212,12 +210,12 @@ const taskAdder = (() => {
         position = i;
       }
 
-      taskSpace.appendChild(rightCounters.taskArr[rightCounters.rightTask][position].newTask);
+      taskSpace.appendChild(rightCounters.taskArr[rightCounters.rightTask][position]);
 
 
 
       // CONTINUE HERE!!!
-      const itemStorage = rightTaskLocal(rightCounters.taskArr);
+      const itemStorage = rightTaskLocal(JSON.stringify(rightCounters.taskArr));
       console.log(`In storage we have ${itemStorage.retrieve}`);
   
       taskForm.title.name.value = '';
@@ -226,9 +224,6 @@ const taskAdder = (() => {
       taskForm.form.classList.add('hidden');
     }
   });
-
-
-
   return {taskSpace};
 })();
 
