@@ -8,6 +8,39 @@ const rightCounters = (() => {
   return {rightTask, taskArr, selected};
 })();
 
+const rightTaskLocal = (toStore) => {
+  const stored = localStorage.setItem('tasks', toStore);
+  const retrieve = localStorage.getItem('tasks');
+  return {stored, retrieve};
+};
+
+// const rightLocalStorageCheck = (() => {
+//   if (localStorage.getItem('tasks')) {
+//     const toLoad = localStorage.getItem('tasks');
+//     const converted = JSON.parse(toLoad);
+//     // console.log(converted);
+//     for (let i = 0; i < converted.length; i++) {
+//       const addTask = taskButton(converted[i].text, converted[i].counter);
+//       counters.taskArr.push(addTask);
+//       counters.leftTask++;
+//     }
+//     // console.log(counters.taskArr);
+//     // append over in layout.js
+
+//     return {converted};
+//   }
+// })();
+
+const leftTaskGenerator = (() => {
+  for (let i = 0; i < counters.taskArr.length; i++) {
+    rightCounters.taskArr.push([]);
+    
+  }
+  console.log(rightCounters.taskArr);
+  console.log(counters.taskArr);
+  
+})();
+
 const textPiece = (id, text, type) => {
   const title = document.createElement('label');
   title.setAttribute('for', id);
@@ -142,13 +175,14 @@ const buttonSelect = (() => {
             document.getElementById('main').classList.remove('bg-slate-400', 'hover:bg-slate-400');
             document.getElementById('main').removeAttribute('id');
             rightCounters.selected = 0;
-            console.log('function run');
+            // console.log('function run');
         }
         core.top.classList.remove('hidden');
         counters.taskArr[i].task.setAttribute('id', 'main');
         document.getElementById('main').classList.add('bg-slate-400', 'hover:bg-slate-400');
         rightCounters.selected++;
-        console.log(rightCounters.selected);
+        rightCounters.rightTask = counters.taskArr[i].counter;
+        console.log(rightCounters.rightTask);
         newTaskButton.taskTitle.textContent = counters.taskArr[i].text;
       });
     }
@@ -169,8 +203,22 @@ const taskAdder = (() => {
     if (taskForm.title.name.value === '' || taskForm.des.name.value === '' || value === 'Priority') {
       alert('Please fill in all the information');
     } else {
-      const test = item(taskForm.title.name.value, taskForm.des.name.value, 'Deadline', value);
-      taskSpace.appendChild(test.newTask);
+      const newItem = item(taskForm.title.name.value, taskForm.des.name.value, 'Deadline', value);
+      rightCounters.taskArr[rightCounters.rightTask].push(newItem);
+      console.log(rightCounters.taskArr);
+      let position = 0;
+
+      for (let i = 0; i < rightCounters.taskArr[rightCounters.rightTask].length; i++) {
+        position = i;
+      }
+
+      taskSpace.appendChild(rightCounters.taskArr[rightCounters.rightTask][position].newTask);
+
+
+
+      // CONTINUE HERE!!!
+      const itemStorage = rightTaskLocal(rightCounters.taskArr);
+      console.log(`In storage we have ${itemStorage.retrieve}`);
   
       taskForm.title.name.value = '';
       taskForm.des.name.value = '';
@@ -178,6 +226,7 @@ const taskAdder = (() => {
       taskForm.form.classList.add('hidden');
     }
   });
+
 
 
   return {taskSpace};

@@ -1,7 +1,7 @@
 import '/dist/output.css';
 import '/src/input.css';
-import { plus, clear, counters, form  } from './task';
 import { buttonSelect, newTaskButton, taskForm, taskAdder } from './core';
+import { plus, clear, counters, form  } from './task';
 
 
 const top = (() => {
@@ -51,7 +51,7 @@ const side = (() => {
   plus.plus.task.classList.remove('p-2', 'h-14', 'w-5/6');
   plus.plus.task.classList.add('px-2', 'h-8', 'pb-1');
 
-  console.log(counters.taskArr);
+  // console.log(counters.taskArr);
   for ( let i = 0; i < counters.taskArr.length; i++) {
     tasks.appendChild(counters.taskArr[i].task);
   }

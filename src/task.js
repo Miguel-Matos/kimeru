@@ -1,6 +1,6 @@
 import '/dist/output.css';
 import { side } from './layout';
-import { buttonSelect } from './core';
+import { buttonSelect, rightCounters } from './core';
 
 const counters = (() => {
   let leftTask = 0;
@@ -112,6 +112,8 @@ const taskButtonMaker = (() => {
       const storage = leftTaskLocal(JSON.stringify(counters.taskArr));
       side.tasks.appendChild(counters.taskArr[counters.leftTask].task);
       counters.leftTask++;
+      rightCounters.taskArr.push([]);
+      console.log(rightCounters.taskArr);
       // console.log(counters.taskArr);
       // console.log(storage.retrieve);
   
