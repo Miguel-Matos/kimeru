@@ -14,20 +14,49 @@ const rightTaskLocal = (toStore) => {
   return {stored, retrieve};
 };
 
-// const rightLocalStorageCheck = (() => {
-//   if (localStorage.getItem('tasks')) {
-//     const toLoad = localStorage.getItem('tasks');
-//     const converted = JSON.parse(toLoad);
-//     console.log(converted);
-//     for (let i = 0; i < converted.length; i++) {
+const rightLocalStorageCheck = (() => {
+  if (localStorage.getItem('tasks')) {
+    let toLoad = localStorage.getItem('tasks');
+    let converted = JSON.parse(toLoad);
+    let positionInLS = 0;
+    let loaded = false;
+    console.log(converted);
+    function loader() {
+      for (let i = 0; i < converted.length; i++) {
+        for (let j = 0; j < converted[i].length; j++) {
+          // positionInLS = j;
+          // console.log(positionInLS);
+          rightCounters.taskArr[i].push(converted[i][j]);
+          console.log(rightCounters.taskArr);
+        }
+      //   // toLoad = localStorage.getItem('tasks');
+      //   // converted = JSON.parse(rightLocalStorageCheck.toLoad);
 
-//     }
-//     // console.log(counters.taskArr);
-//     // append over in layout.js
+      //   while (taskAdder.taskSpace.lastElementChild) {
+      //     taskAdder.taskSpace.removeChild(taskAdder.taskSpace.lastChild);
+      //   }
 
-//     return {converted};
-//   }
-// })();
+      //   if (rightLocalStorageCheck.converted[rightCounters.rightTask] !== undefined) {
+      //     console.log('My dude this is defined');
+      //     // appends tasks to the right on click and updates the taskArr
+      //     for (let i = 0; i < rightLocalStorageCheck.converted[rightCounters.rightTask].length; i++) {
+      //       const name = rightLocalStorageCheck.converted[rightCounters.rightTask][i][0];
+      //       const des = rightLocalStorageCheck.converted[rightCounters.rightTask][i][1];
+      //       const pri = rightLocalStorageCheck.converted[rightCounters.rightTask][i][2];
+      //       const addTask = item(name, des, pri);
+      //       rightCounters.taskArr[rightCounters.rightTask].push([name, des, pri]);
+
+      //       // console.log(rightLocalStorageCheck.converted);
+      //       // taskAdder.taskSpace.appendChild(addTask.newTask);
+      //     }
+      //     // const updateStorage = rightTaskLocal(rightCounters.taskArr);
+      //   }
+      }
+    }
+
+    return {converted, loader, positionInLS};
+  }
+})();
 
 const leftTaskGenerator = (() => {
   for (let i = 0; i < counters.taskArr.length; i++) {
@@ -182,32 +211,8 @@ const buttonSelect = (() => {
         rightCounters.rightTask = counters.taskArr[i].counter;
         // console.log(rightCounters.rightTask);
         newTaskButton.taskTitle.textContent = counters.taskArr[i].text;
-
-
-          // rightLocalStorageCheck.toLoad = localStorage.getItem('tasks');
-          // rightLocalStorageCheck.converted = JSON.parse(rightLocalStorageCheck.toLoad);
-
-        while (taskAdder.taskSpace.lastElementChild) {
-          taskAdder.taskSpace.removeChild(taskAdder.taskSpace.lastChild);
-        }
-
-        if (rightLocalStorageCheck.converted[rightCounters.rightTask] !== undefined) {
-          console.log('My dude this is defined');
-          // appends tasks to the right on click and updates the taskArr
-          for (let i = 0; i < rightLocalStorageCheck.converted[rightCounters.rightTask].length; i++) {
-            const name = rightLocalStorageCheck.converted[rightCounters.rightTask][i][0];
-            const des = rightLocalStorageCheck.converted[rightCounters.rightTask][i][1];
-            const pri = rightLocalStorageCheck.converted[rightCounters.rightTask][i][2];
-            const addTask = item(name, des, pri);
-            rightCounters.taskArr[rightCounters.rightTask].push([name, des, pri]);
-
-            // console.log(rightLocalStorageCheck.converted);
-            taskAdder.taskSpace.appendChild(addTask.newTask);
-          }
-          const updateStorage = rightTaskLocal(rightCounters.taskArr);
-        }
-
           
+        rightLocalStorageCheck.loader();
       });
     }
   }
