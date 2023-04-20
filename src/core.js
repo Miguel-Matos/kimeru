@@ -18,17 +18,19 @@ const rightLocalStorageCheck = (() => {
   if (localStorage.getItem('tasks')) {
     let toLoad = localStorage.getItem('tasks');
     let converted = JSON.parse(toLoad);
-    let positionInLS = 0;
     let loaded = false;
     console.log(converted);
+
     function loader() {
-      for (let i = 0; i < converted.length; i++) {
-        for (let j = 0; j < converted[i].length; j++) {
-          // positionInLS = j;
-          // console.log(positionInLS);
-          rightCounters.taskArr[i].push(converted[i][j]);
-          console.log(rightCounters.taskArr);
-        }
+      if (loaded === false) {
+        for (let i = 0; i < converted.length; i++) {
+          for (let j = 0; j < converted[i].length; j++) {
+            rightCounters.taskArr[i].push(converted[i][j]);
+          }
+      }
+      console.log(rightCounters.taskArr);
+      loaded = true;
+
       //   // toLoad = localStorage.getItem('tasks');
       //   // converted = JSON.parse(rightLocalStorageCheck.toLoad);
 
@@ -39,22 +41,32 @@ const rightLocalStorageCheck = (() => {
       //   if (rightLocalStorageCheck.converted[rightCounters.rightTask] !== undefined) {
       //     console.log('My dude this is defined');
       //     // appends tasks to the right on click and updates the taskArr
-      //     for (let i = 0; i < rightLocalStorageCheck.converted[rightCounters.rightTask].length; i++) {
-      //       const name = rightLocalStorageCheck.converted[rightCounters.rightTask][i][0];
-      //       const des = rightLocalStorageCheck.converted[rightCounters.rightTask][i][1];
-      //       const pri = rightLocalStorageCheck.converted[rightCounters.rightTask][i][2];
-      //       const addTask = item(name, des, pri);
-      //       rightCounters.taskArr[rightCounters.rightTask].push([name, des, pri]);
 
-      //       // console.log(rightLocalStorageCheck.converted);
-      //       // taskAdder.taskSpace.appendChild(addTask.newTask);
-      //     }
       //     // const updateStorage = rightTaskLocal(rightCounters.taskArr);
       //   }
       }
     }
 
-    return {converted, loader, positionInLS};
+    function pin() {
+      while (taskAdder.taskSpace.lastElementChild) {
+        taskAdder.taskSpace.removeChild(taskAdder.taskSpace.lastChild);
+        console.log('ran');
+      }
+      
+      for (let i = 0; i < rightLocalStorageCheck.converted[rightCounters.rightTask].length; i++) {
+        const name = rightLocalStorageCheck.converted[rightCounters.rightTask][i][0];
+        const des = rightLocalStorageCheck.converted[rightCounters.rightTask][i][1];
+        const pri = rightLocalStorageCheck.converted[rightCounters.rightTask][i][2];
+        const addTask = item(name, des, pri);
+        // rightCounters.taskArr[rightCounters.rightTask].push([name, des, pri]);
+
+        // console.log(rightLocalStorageCheck.converted);
+        taskAdder.taskSpace.appendChild(addTask.newTask);
+        console.log('pinned');
+      }
+    }
+
+    return {converted, loader, pin};
   }
 })();
 
@@ -198,6 +210,7 @@ const buttonSelect = (() => {
   function buttonCheck() {
     for (let i = 0; i < counters.taskArr.length; i++) {
       counters.taskArr[i].task.addEventListener('click', () => {
+        
         if (rightCounters.selected > 0) {
             document.getElementById('main').classList.remove('bg-slate-400', 'hover:bg-slate-400');
             document.getElementById('main').removeAttribute('id');
@@ -209,18 +222,17 @@ const buttonSelect = (() => {
         document.getElementById('main').classList.add('bg-slate-400', 'hover:bg-slate-400');
         rightCounters.selected++;
         rightCounters.rightTask = counters.taskArr[i].counter;
+        rightLocalStorageCheck.pin();
         // console.log(rightCounters.rightTask);
         newTaskButton.taskTitle.textContent = counters.taskArr[i].text;
           
-        rightLocalStorageCheck.loader();
       });
     }
   }
-
-
-
   return {buttonCheck};
 })();
+
+rightLocalStorageCheck.loader();
 
 const taskAdder = (() => {
   const taskSpace = document.createElement('div');
