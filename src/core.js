@@ -14,20 +14,20 @@ const rightTaskLocal = (toStore) => {
   return {stored, retrieve};
 };
 
-const rightLocalStorageCheck = (() => {
-  if (localStorage.getItem('tasks')) {
-    const toLoad = localStorage.getItem('tasks');
-    const converted = JSON.parse(toLoad);
-    console.log(converted);
-    for (let i = 0; i < converted.length; i++) {
+// const rightLocalStorageCheck = (() => {
+//   if (localStorage.getItem('tasks')) {
+//     const toLoad = localStorage.getItem('tasks');
+//     const converted = JSON.parse(toLoad);
+//     console.log(converted);
+//     for (let i = 0; i < converted.length; i++) {
 
-    }
-    // console.log(counters.taskArr);
-    // append over in layout.js
+//     }
+//     // console.log(counters.taskArr);
+//     // append over in layout.js
 
-    return {converted};
-  }
-})();
+//     return {converted};
+//   }
+// })();
 
 const leftTaskGenerator = (() => {
   for (let i = 0; i < counters.taskArr.length; i++) {
@@ -127,14 +127,14 @@ const taskForm = (() => {
 })();
 
 // Creates task item for the right area of the UI
-const item = (title, description, dueDate, priority) => {
+const item = (title, description, priority) => {
   
 const name = document.createElement('p');
 name.textContent = title;
 const des = document.createElement('p');
 des.textContent = description;
-const date = document.createElement('p');
-date.textContent = dueDate;
+// const date = document.createElement('p');
+// date.textContent = dueDate;
 const pri = document.createElement('p');
 pri.textContent = priority;
 
@@ -145,9 +145,9 @@ check.type = 'checkbox';
 newTask.appendChild(check);
 newTask.appendChild(name);
 newTask.appendChild(des);
-newTask.appendChild(date);
+// newTask.appendChild(date);
 newTask.appendChild(pri);
-return {newTask};
+return {newTask, name, des, pri};
 };
 
 
@@ -182,6 +182,32 @@ const buttonSelect = (() => {
         rightCounters.rightTask = counters.taskArr[i].counter;
         // console.log(rightCounters.rightTask);
         newTaskButton.taskTitle.textContent = counters.taskArr[i].text;
+
+
+          // rightLocalStorageCheck.toLoad = localStorage.getItem('tasks');
+          // rightLocalStorageCheck.converted = JSON.parse(rightLocalStorageCheck.toLoad);
+
+        while (taskAdder.taskSpace.lastElementChild) {
+          taskAdder.taskSpace.removeChild(taskAdder.taskSpace.lastChild);
+        }
+
+        if (rightLocalStorageCheck.converted[rightCounters.rightTask] !== undefined) {
+          console.log('My dude this is defined');
+          // appends tasks to the right on click and updates the taskArr
+          for (let i = 0; i < rightLocalStorageCheck.converted[rightCounters.rightTask].length; i++) {
+            const name = rightLocalStorageCheck.converted[rightCounters.rightTask][i][0];
+            const des = rightLocalStorageCheck.converted[rightCounters.rightTask][i][1];
+            const pri = rightLocalStorageCheck.converted[rightCounters.rightTask][i][2];
+            const addTask = item(name, des, pri);
+            rightCounters.taskArr[rightCounters.rightTask].push([name, des, pri]);
+
+            // console.log(rightLocalStorageCheck.converted);
+            taskAdder.taskSpace.appendChild(addTask.newTask);
+          }
+          const updateStorage = rightTaskLocal(rightCounters.taskArr);
+        }
+
+          
       });
     }
   }
@@ -201,8 +227,8 @@ const taskAdder = (() => {
     if (taskForm.title.name.value === '' || taskForm.des.name.value === '' || value === 'Priority') {
       alert('Please fill in all the information');
     } else {
-      const newItem = item(taskForm.title.name.value, taskForm.des.name.value, 'Deadline', value);
-      rightCounters.taskArr[rightCounters.rightTask].push(newItem.newTask);
+      const newItem = item(taskForm.title.name.value, taskForm.des.name.value, value);
+      rightCounters.taskArr[rightCounters.rightTask].push([taskForm.title.name.value, taskForm.des.name.value, value]);
       console.log(rightCounters.taskArr);
       let position = 0;
 
@@ -210,11 +236,8 @@ const taskAdder = (() => {
         position = i;
       }
 
-      taskSpace.appendChild(rightCounters.taskArr[rightCounters.rightTask][position]);
+      taskSpace.appendChild(newItem.newTask);
 
-
-
-      // CONTINUE HERE!!!
       const itemStorage = rightTaskLocal(JSON.stringify(rightCounters.taskArr));
       console.log(`In storage we have ${itemStorage.retrieve}`);
   
