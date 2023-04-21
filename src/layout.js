@@ -1,6 +1,6 @@
 import '/dist/output.css';
 import '/src/input.css';
-import { buttonSelect, newTaskButton, taskForm, taskAdder } from './core';
+import { buttonSelect, newTaskButton, taskForm, taskAdder, taskButtonDeleter } from './core';
 import { plus, clear, counters, form  } from './task';
 
 
@@ -73,16 +73,21 @@ const core = (() => {
   const area = document.createElement('div');
   // const taskSpace = document.createElement('div');
   const top = document.createElement('div');
+  const topRow = document.createElement('div');
+  topRow.classList.add('flex', 'gap-5', 'items-center');
+  topRow.appendChild(newTaskButton.taskTitle);
+  topRow.appendChild(taskButtonDeleter.deleteBtn);
+
   top.classList.add('flex', 'flex-col', 'items-center', 'self-center', 'hidden');
 
-  top.appendChild(newTaskButton.taskTitle);
+  top.appendChild(topRow);
   top.appendChild(newTaskButton.newTask);
 
   area.appendChild(top);
   area.classList.add('h-3/4', 'w-screen', 'overflow-y-auto', 'p-5', 'flex', 'flex-col', 'items-center');
   area.appendChild(form.form);
   area.appendChild(taskForm.form);
-  area.appendChild(taskAdder.taskSpace);
+  area.appendChild(taskAdder.taskOuter);
   buttonSelect.buttonCheck();
 
   return {area, top};

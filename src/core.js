@@ -142,7 +142,7 @@ const priority = () => {
 
 const taskForm = (() => {
   const form = document.createElement('form');
-  form.classList.add('bg-slate-200', 'flex', 'flex-col', 'w-64', 'sm:w-80', 'items-center', 'p-5', 'absolute', 'top-10', 'left-auto', 'hidden');
+  form.classList.add('bg-slate-200', 'flex', 'flex-col', 'w-64', 'sm:w-80', 'items-center', 'p-5', 'absolute', 'top-10', 'left-auto', 'hidden', 'z-10');
   const title = textPiece('name', 'Task Name', 'text');
   const des = textAreaPiece('des', 'Description', 'textarea');
   const level = priority();
@@ -162,7 +162,7 @@ const taskForm = (() => {
 // Creates task item for the right area of the UI
 const item = (title, description, priority) => {
   
-const name = document.createElement('p');
+const name = document.createElement('h2');
 name.textContent = title;
 const des = document.createElement('p');
 des.textContent = description;
@@ -172,7 +172,7 @@ const pri = document.createElement('p');
 pri.textContent = priority;
 
 const newTask = document.createElement('div');
-newTask.classList.add('flex', 'gap-5', 'flex-wrap');
+newTask.classList.add('flex', 'gap-5', 'flex-wrap', 'p-5', 'odd:bg-slate-200', 'even:bg-slate-100', 'hover:drop-shadow-lg');
 const check = document.createElement('input');
 check.type = 'checkbox';
 newTask.appendChild(check);
@@ -187,13 +187,13 @@ return {newTask, name, des, pri};
 const newTaskButton = (() => {
   const newTask = document.createElement('button');
   newTask.textContent = 'New Task +';
-  newTask.classList.add('font-sans', 'text-xl', 'bg-slate-100', 'hover:bg-slate-200', 'active:bg-slate-400' , 'h-14', 'w-40', 'rounded-lg', 'flex-none', 'shadow-md', 'text-ellipsis', 'overflow-hidden', 'p-2', 'taskButton');
+  newTask.classList.add('font-sans', 'text-xl', 'bg-slate-100', 'hover:bg-slate-200', 'active:bg-slate-400' , 'h-14', 'w-40', 'rounded-lg', 'flex-none', 'shadow-md', 'text-ellipsis', 'overflow-hidden', 'p-2', 'taskButton', 'mb-5');
   newTask.addEventListener('click', () => {
     taskForm.form.classList.remove('hidden');
   });
 
   const taskTitle = document.createElement('h3');
-  taskTitle.classList.add('text-xl', 'my-5');
+  taskTitle.classList.add('text-3xl', 'my-5');
   taskTitle.textContent = 'Task Title';
   return {newTask, taskTitle};
 })();
@@ -227,6 +227,9 @@ const buttonSelect = (() => {
 
 const taskAdder = (() => {
   const taskSpace = document.createElement('div');
+  const taskOuter = document.createElement('div');
+  taskOuter.classList.add('border', 'drop-shadow-xl', 'w-3/4');
+  taskOuter.appendChild(taskSpace);
   
   taskForm.submit.task.addEventListener('click', (e) => {
     e.preventDefault();
@@ -262,11 +265,15 @@ const taskAdder = (() => {
       taskForm.form.classList.add('hidden');
     }
   });
-  return {taskSpace};
+  return {taskSpace, taskOuter};
 })();
 
 const taskButtonDeleter = (() => {
+  const deleteBtn = document.createElement('button');
+  deleteBtn.textContent = 'X';
+  deleteBtn.classList.add('bg-red-400', 'hover:bg-red-200', 'text-xl', 'rounded-lg', 'px-5', 'py-2');
 
+  return {deleteBtn}
 })();
 
-export {rightCounters, buttonSelect, newTaskButton, taskForm, taskAdder};
+export {rightCounters, buttonSelect, newTaskButton, taskForm, taskAdder, taskButtonDeleter};
