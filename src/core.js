@@ -246,7 +246,7 @@ const buttonSelect = (() => {
 const taskAdder = (() => {
   const taskSpace = document.createElement('div');
   const taskOuter = document.createElement('div');
-  taskOuter.classList.add('border', 'drop-shadow-xl', 'w-3/4');
+  taskOuter.classList.add('drop-shadow-xl', 'w-3/4');
   taskOuter.appendChild(taskSpace);
   
   taskForm.submit.task.addEventListener('click', (e) => {
@@ -312,9 +312,10 @@ const taskButtonDeleter = (() => {
       for (let i = 0; i < rightCounters.taskArr[rightCounters.rightTask].length; i++) {
         taskAdder.taskOuter.classList.add('hidden');
       }
+      counters.taskArr[rightCounters.rightTask].task.classList.add('hidden');
       side.addTask();
-      console.log(counters.taskArr);
-      console.log(rightCounters.taskArr);
+      // console.log(counters.taskArr);
+      // console.log(rightCounters.taskArr);
     });
   }
 
