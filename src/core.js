@@ -142,10 +142,16 @@ const priority = () => {
 
 const taskForm = (() => {
   const form = document.createElement('form');
-  form.classList.add('bg-slate-200', 'flex', 'flex-col', 'w-64', 'sm:w-80', 'items-center', 'p-5', 'absolute', 'top-10', 'left-auto', 'hidden', 'z-10');
+  form.classList.add('bg-slate-300', 'flex', 'flex-col', 'w-64', 'sm:w-80', 'items-center', 'p-5', 'absolute', 'top-10', 'left-auto', 'hidden', 'z-10', 'drop-shadow-xl');
   const title = textPiece('name', 'Task Name', 'text');
   const des = textAreaPiece('des', 'Description', 'textarea');
   const level = priority();
+  const cancel = taskButton('Cancel', -2);
+  cancel.task.classList.add('mt-5');
+  cancel.task.addEventListener('click', (e) => {
+    e.preventDefault();
+    form.classList.add('hidden');
+  });
 
   const submit = taskButton('Add Task', -1);
 
@@ -156,6 +162,7 @@ const taskForm = (() => {
   form.appendChild(level.priority);
 
   form.appendChild(submit.task);
+  form.appendChild(cancel.task);
   return {form, submit, title, des, level};
 })();
 

@@ -68,13 +68,20 @@ const textAreaPiece = (id, text, type) => {
 const form = (() => {
 
   const form = document.createElement('form');
-  form.classList.add('bg-slate-200', 'flex', 'flex-col', 'w-64', 'sm:w-80', 'items-center', 'p-5', 'hidden');
+  form.classList.add('bg-slate-300', 'drop-shadow-xl', 'flex', 'flex-col', 'w-64', 'sm:w-80', 'items-center', 'p-5', 'hidden', 'absolute', 'z-10', 'top-10', 'left-auto', 'border');
 
   const title = textPiece('name', 'New Task', 'text');
   const submit = taskButton('Add Task', -1);
+  const cancel = taskButton('Cancel', -2);
+  cancel.task.classList.add('mt-5');
+  cancel.task.addEventListener('click', (e) => {
+    e.preventDefault();
+    form.classList.add('hidden');
+  });
   form.appendChild(title.title);
   form.appendChild(title.name);
   form.appendChild(submit.task);
+  form.appendChild(cancel.task);
   return {form, submit, title};
 })();
 
