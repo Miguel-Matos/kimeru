@@ -30,29 +30,21 @@ const rightLocalStorageCheck = (() => {
       }
       console.log(rightCounters.taskArr);
       loaded = true;
-
-      //   // toLoad = localStorage.getItem('tasks');
-      //   // converted = JSON.parse(rightLocalStorageCheck.toLoad);
-
-      //   while (taskAdder.taskSpace.lastElementChild) {
-      //     taskAdder.taskSpace.removeChild(taskAdder.taskSpace.lastChild);
-      //   }
-
-      //   if (rightLocalStorageCheck.converted[rightCounters.rightTask] !== undefined) {
-      //     console.log('My dude this is defined');
-      //     // appends tasks to the right on click and updates the taskArr
-
-      //     // const updateStorage = rightTaskLocal(rightCounters.taskArr);
-      //   }
       }
     }
+
+    // function updateStorage(newStorage) {
+    //   toLoad = localStorage.getItem('tasks');
+    //   converted = JSON.parse(toLoad);
+    //   console.log(`New converted ${converted}`);
+    // }
 
     function pin() {
       while (taskAdder.taskSpace.lastElementChild) {
         taskAdder.taskSpace.removeChild(taskAdder.taskSpace.lastChild);
         console.log('ran');
       }
-      
+
       for (let i = 0; i < rightLocalStorageCheck.converted[rightCounters.rightTask].length; i++) {
         const name = rightLocalStorageCheck.converted[rightCounters.rightTask][i][0];
         const des = rightLocalStorageCheck.converted[rightCounters.rightTask][i][1];
@@ -66,7 +58,7 @@ const rightLocalStorageCheck = (() => {
       }
     }
 
-    return {converted, loader, pin};
+    return {converted, loader, pin, toLoad};
   }
 })();
 
@@ -222,6 +214,7 @@ const buttonSelect = (() => {
         document.getElementById('main').classList.add('bg-slate-400', 'hover:bg-slate-400');
         rightCounters.selected++;
         rightCounters.rightTask = counters.taskArr[i].counter;
+        // rightLocalStorageCheck.updateStorage();
         rightLocalStorageCheck.pin();
         // console.log(rightCounters.rightTask);
         newTaskButton.taskTitle.textContent = counters.taskArr[i].text;
@@ -231,8 +224,6 @@ const buttonSelect = (() => {
   }
   return {buttonCheck};
 })();
-
-rightLocalStorageCheck.loader();
 
 const taskAdder = (() => {
   const taskSpace = document.createElement('div');
@@ -253,10 +244,17 @@ const taskAdder = (() => {
         position = i;
       }
 
-      taskSpace.appendChild(newItem.newTask);
+      // need to add pin()
+      rightLocalStorageCheck.loader();
+
+      // taskSpace.appendChild(newItem.newTask);
 
       const itemStorage = rightTaskLocal(JSON.stringify(rightCounters.taskArr));
       console.log(`In storage we have ${itemStorage.retrieve}`);
+      rightLocalStorageCheck.toLoad = localStorage.getItem('tasks');
+      rightLocalStorageCheck.converted = JSON.parse(rightLocalStorageCheck.toLoad);
+      console.log(rightLocalStorageCheck.converted);
+      rightLocalStorageCheck.pin();
   
       taskForm.title.name.value = '';
       taskForm.des.name.value = '';
