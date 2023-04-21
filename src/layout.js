@@ -52,9 +52,15 @@ const side = (() => {
   plus.plus.task.classList.add('px-2', 'h-8', 'pb-1');
 
   // console.log(counters.taskArr);
-  for ( let i = 0; i < counters.taskArr.length; i++) {
-    tasks.appendChild(counters.taskArr[i].task);
+  let run = false;
+  function addTask() {
+    for ( let i = 0; i < counters.taskArr.length; i++) {
+      tasks.appendChild(counters.taskArr[i].task);
+    }
   }
+
+  addTask();
+
   const titlePlusDiv = document.createElement('div');
   titlePlusDiv.classList.add('flex', 'gap-5', 'justify-center', 'items-center', 'pt-5');
   titlePlusDiv.appendChild(title);
@@ -62,7 +68,7 @@ const side = (() => {
 
   sideBar.appendChild(titlePlusDiv);
   sideBar.appendChild(tasks);  
-  return {sideBar, tasks, title};
+  return {sideBar, tasks, title, run, addTask};
 })();
 
 // TODO make factory to generate Task buttons

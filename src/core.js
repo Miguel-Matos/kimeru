@@ -1,5 +1,5 @@
 import { counters } from "./task";
-import { core } from "./layout";
+import { core, side } from "./layout";
 
 const rightCounters = (() => {
   let rightTask = 0;
@@ -19,7 +19,7 @@ const rightLocalStorageCheck = (() => {
     let toLoad = localStorage.getItem('tasks');
     let converted = JSON.parse(toLoad);
     let loaded = false;
-    console.log(converted);
+    // console.log(converted);
 
     function loader() {
       if (loaded === false) {
@@ -28,7 +28,7 @@ const rightLocalStorageCheck = (() => {
             rightCounters.taskArr[i].push(converted[i][j]);
           }
       }
-      console.log(rightCounters.taskArr);
+      // console.log(rightCounters.taskArr);
       loaded = true;
       }
     }
@@ -42,7 +42,7 @@ const rightLocalStorageCheck = (() => {
     function pin() {
       while (taskAdder.taskSpace.lastElementChild) {
         taskAdder.taskSpace.removeChild(taskAdder.taskSpace.lastChild);
-        console.log('ran');
+        // console.log('ran');
       }
 
       for (let i = 0; i < rightLocalStorageCheck.converted[rightCounters.rightTask].length; i++) {
@@ -54,7 +54,7 @@ const rightLocalStorageCheck = (() => {
 
         // console.log(rightLocalStorageCheck.converted);
         taskAdder.taskSpace.appendChild(addTask.newTask);
-        console.log('pinned');
+        // console.log('pinned');
       }
     }
 
@@ -206,16 +206,27 @@ const newTaskButton = (() => {
 })();
 
 const buttonSelect = (() => {
+  function isSelected() {
+    if (rightCounters.selected > 0) {
+      document.getElementById('main').classList.remove('bg-slate-400', 'hover:bg-slate-400');
+      document.getElementById('main').removeAttribute('id');
+      rightCounters.selected = 0;
+      // console.log('function run');
+    }
+  }
+  let idAssignBreaker = false;
+
   function buttonCheck() {
     for (let i = 0; i < counters.taskArr.length; i++) {
       counters.taskArr[i].task.addEventListener('click', () => {
+        taskAdder.taskOuter.classList.remove('hidden');
+        isSelected();
+
+        // if (idAssignBreaker === true) {
+        //   idAssignBreaker = false;
+        //   return;
+        // }
         
-        if (rightCounters.selected > 0) {
-            document.getElementById('main').classList.remove('bg-slate-400', 'hover:bg-slate-400');
-            document.getElementById('main').removeAttribute('id');
-            rightCounters.selected = 0;
-            // console.log('function run');
-        }
         core.top.classList.remove('hidden');
         counters.taskArr[i].task.setAttribute('id', 'main');
         document.getElementById('main').classList.add('bg-slate-400', 'hover:bg-slate-400');
@@ -225,11 +236,11 @@ const buttonSelect = (() => {
         rightLocalStorageCheck.pin();
         // console.log(rightCounters.rightTask);
         newTaskButton.taskTitle.textContent = counters.taskArr[i].text;
-          
+        taskButtonDeleter.deleteLeft();
       });
     }
   }
-  return {buttonCheck};
+  return {buttonCheck, isSelected, idAssignBreaker};
 })();
 
 const taskAdder = (() => {
@@ -280,7 +291,36 @@ const taskButtonDeleter = (() => {
   deleteBtn.textContent = 'X';
   deleteBtn.classList.add('bg-red-400', 'hover:bg-red-200', 'text-xl', 'rounded-lg', 'px-5', 'py-2');
 
-  return {deleteBtn}
+  function deleteLeft() {
+    rightLocalStorageCheck.loader();
+    deleteBtn.addEventListener('click', () => {
+
+      // buttonSelect.isSelected();
+
+      // counters.taskArr.splice(rightCounters.rightTask, 1);
+      // rightCounters.taskArr.splice(rightCounters.rightTask, 1);
+
+      // for (let i = 0; i < counters.taskArr.length; i++) {
+      //   counters.taskArr[i].counter = i;
+      // }
+      
+      core.top.classList.add('hidden');
+      // while (taskAdder.taskOuter.lastElementChild) {
+      //   taskAdder.taskOuter.removeChild(taskAdder.taskOuter.lastChild);
+      //   console.log('ran');
+      // }
+      for (let i = 0; i < rightCounters.taskArr[rightCounters.rightTask].length; i++) {
+        taskAdder.taskOuter.classList.add('hidden');
+      }
+      side.addTask();
+      console.log(counters.taskArr);
+      console.log(rightCounters.taskArr);
+    });
+  }
+
+
+
+  return {deleteBtn, deleteLeft};
 })();
 
 export {rightCounters, buttonSelect, newTaskButton, taskForm, taskAdder, taskButtonDeleter};
